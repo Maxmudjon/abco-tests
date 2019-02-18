@@ -11,67 +11,84 @@
       integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
       crossorigin="anonymous"
     />
-    <link rel="stylesheet" type="text/css" href="semantic/dist/semantic.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.9/semantic.min.css" />
   </head>
   <body>
-    <div id="life360">
-      <div v-if="logined == 'no'">
-        <div class="card" style="padding: 10px; margin: 10px">
+    <div id="abcoTests" style="margin: 10px;">
+      <div v-if="testStep == 'toWhich'">
+        <div class="card" style="padding: 10px;">
           <div style="text-align: center;">
-            <h2 style="color: #5748a3">Please login</h2>
+            <h2 style="color: #5748a3">Assalomu aleykum, xush kelibsizlar</h2>
+            <h2 style="color: #5748a3">Testdan o'tish saytiga</h2>
           </div>
-          <div class="input-group">
-            <input type="text" class="form-control" placeholder="+____" v-model="countryCode" />
-            <input type="text" class="form-control" style="width: 75%" v-model="phone" />
+          <div class="ui divider"></div>
+          <div style="text-align: center; padding: 20px">
+            <h3>Iltimos qaysi sho'tgacha kelganingizni tanlang</h3>
+            <h3 for="accountNumber" style="color: red">{{ total }}</h3>
+            <h4 for="accountNumber">sho'tigacha</h4>
+            <input type="range" class="custom-range" min="1" max="5" step="1" id="accountNumber" value="1" style="padding-top: 20px;" v-model="toWhich" />
           </div>
-          <div style="padding-top: 10px;">
-            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" v-model="password" />
-          </div>
-          <div style="padding-top: 10px;">
-            <button type="button" class="btn btn-primary btn-lg btn-block" style="background-color: #443880; border: 0;" v-on:click="login">Login</button>
+          <div>
+            <button type="button" class="btn btn-primary btn-lg btn-block" v-on:click="selectedToWhich">Tanladim</button>
           </div>
         </div>
       </div>
-
-      <div class="ui centered card" v-if="logined == 'yes'">
-        <div class="center aligned author"><img class="ui avatar image" :src="url" /></div>
-
-        <div class="content">
-          <a class="header">Элис</a>
-          <div class="meta">
-            <a>Друзья</a>
+      <div v-if="testStep == 'testlar'">
+        <div class="ui six doubling cards">
+          <div class="card" v-if="lessThanTen == 'xa'" v-on:click="start(toWhich)" style="cursor: pointer;">
+            <div class="image">
+              <img src="https://raw.githubusercontent.com/Maxmudjon/images/master/10-test-less.jpg" />
+            </div>
+            <div class="extra content">
+              <div class="center aligned author"><img class="ui avatar image" src="https://raw.githubusercontent.com/Maxmudjon/images/master/10-test-small.jpg" /> 10 talik test</div>
+            </div>
           </div>
-          <div class="description">Matthew is an interior designer living in New York.</div>
-        </div>
-        <div class="extra content">
-          <span class="right floated">Зарегистрирована в 2013 году </span>
-          <span><i class="user icon"></i> 75 Friends </span>
+          <div class="card" v-if="tenTests == 'xa'" v-on:click="start('10')" style="cursor: pointer;">
+            <div class="image">
+              <img src="https://raw.githubusercontent.com/Maxmudjon/images/master/10-test.jpg" />
+            </div>
+            <div class="extra content">
+              <div class="center aligned author"><img class="ui avatar image" src="https://raw.githubusercontent.com/Maxmudjon/images/master/10-test-small.jpg" /> 10 talik test</div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
     <script type="text/javascript">
-      // function onHomeyReady(Homey) {
-      // Homey.ready();
       new Vue({
-        el: "#life360",
+        el: "#abcoTests",
         data: {
-          user: [],
-          logined: "no",
-          url: "https://www.life360.com/img/user_images/55fb9228-3f3c-4f9e-a922-877d749d7f26/ad423276-3de7-4f55-94c8-1f6ca99a7cf1.jpg?fd=2",
-          countryCode: "",
-          phone: "",
-          password: ""
+          testStep: "toWhich",
+          currentSteep: 1,
+          toWhich: 1,
+          lessThanTen: "xa",
+          tenTests: "yoq",
+          twentyTests: "yoq",
+          thirtyTests: "yoq",
+          fortyTests: "yoq",
+          accounts: {
+            "1": { name: "Asosiy vositalar", account: "0110" },
+            "2": { name: "Asosiy vositalarning eskirishi", account: "0210" },
+            "3": { name: "Lizing", account: "0310" },
+            "4": { name: "Nomoddiy aktivlar", account: "0410" },
+            "5": { name: "Nomoddiy aktivlarning eskirishi", account: "0510" }
+          }
         },
         methods: {
-          login() {
-            console.log(this.countryCode + this.phone + " " + this.password);
-            if (this.countryCode + this.phone == "+998974076411" && this.password == "maxmud42") {
-              this.logined = "yes";
-            }
+          selectedToWhich() {
+            console.log("Tanlanga sho'tlar uzunligi: ", this.toWhich);
+            this.testStep = "testlar";
+          },
+          start(count) {
+            console.log("Tanlanga testning uzunligi: ", count);
+          }
+        },
+        computed: {
+          total: function() {
+            return this.accounts[this.toWhich].account;
           }
         }
       });
-      // }
     </script>
   </body>
 </html>
