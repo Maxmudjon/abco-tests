@@ -40,7 +40,7 @@
               <img src="https://raw.githubusercontent.com/Maxmudjon/images/master/10-test-less.jpg" />
             </div>
             <div class="extra content">
-              <div class="center aligned author"><img class="ui avatar image" src="https://raw.githubusercontent.com/Maxmudjon/images/master/10-test-small.jpg" /> 10 talik test</div>
+              <div class="center aligned author">10 talik test</div>
             </div>
           </div>
           <div class="card" v-if="tenTests == 'xa'" v-on:click="start('10')" style="cursor: pointer;">
@@ -48,8 +48,40 @@
               <img src="https://raw.githubusercontent.com/Maxmudjon/images/master/10-test.jpg" />
             </div>
             <div class="extra content">
-              <div class="center aligned author"><img class="ui avatar image" src="https://raw.githubusercontent.com/Maxmudjon/images/master/10-test-small.jpg" /> 10 talik test</div>
+              <div class="center aligned author">10 talik test</div>
             </div>
+          </div>
+        </div>
+      </div>
+      <div v-if="testStep == 'savollar'">
+        <div class="card" style="padding: 10px;">
+          <div style="text-align: center;">
+            <h2 style="color: #5748a3">{{ currentSteep + 1 }} - savol</h2>
+            <h2 style="color: #5748a3">Yeg'ilgan bal: {{ ballar }}</h2>
+          </div>
+          <div class="ui divider"></div>
+          <div style="text-align: center; padding: 20px">
+            <h3>Iltimos sho'tning raqami kirgazing</h3>
+            <h2 for="accountNumber" style="color: red">{{ accounts[currentQuestion].name }}</h2>
+            <input type="number" class="form-control" id="shot" v-model="answer" />
+          </div>
+          <div>
+            <button type="button" class="btn btn-primary float-right" v-on:click="next">Keyingi savol</button>
+          </div>
+        </div>
+      </div>
+
+      <div v-if="testStep == 'umumiy'">
+        <div class="card" style="padding: 10px;">
+          <div style="text-align: center;">
+            <h2 style="color: #5748a3">Yeg'ilgan ballar: {{ ballar }}</h2>
+          </div>
+          <div class="ui divider"></div>
+          <div style="text-align: center; padding: 20px">
+            <h3>Testdan o'tdingiz</h3>
+          </div>
+          <div>
+            <button type="button" class="btn btn-primary btn-lg btn-block" v-on:click="route">Bosh saxifa</button>
           </div>
         </div>
       </div>
@@ -59,8 +91,12 @@
         el: "#abcoTests",
         data: {
           testStep: "toWhich",
-          currentSteep: 1,
+          currentSteep: 0,
+          currentQuestion: "",
+          question: [],
           toWhich: 1,
+          ballar: 0,
+          answer: "",
           lessThanTen: "xa",
           tenTests: "yoq",
           twentyTests: "yoq",
@@ -81,6 +117,60 @@
           },
           start(count) {
             console.log("Tanlanga testning uzunligi: ", count);
+            this.question = this.randomTests(count, 1, count);
+            console.log("Savollar xar-xilligi: ", this.question);
+
+            this.currentQuestion = this.question[this.currentSteep];
+            console.log("Xozirgi savol: ", this.currentQuestion);
+
+            this.testStep = "savollar";
+          },
+          next() {
+            if (this.answer == this.accounts[this.currentQuestion].account) {
+              this.ballar++;
+              this.answer = "";
+              console.log("Umumiy savollar uzunligi: " + (this.toWhich - 1) + " xozirgi savol: " + this.currentSteep);
+
+              if (this.toWhich - 1 !== this.currentSteep) {
+                this.currentSteep++;
+                this.currentQuestion = this.question[this.currentSteep];
+                console.log("Xozirgi savol: ", this.currentQuestion);
+              } else {
+                this.testStep = "umumiy";
+                this.currentSteep = 0;
+                this.currentQuestion = "";
+                this.question = [];
+                this.toWhich = 1;
+              }
+            } else {
+              this.answer = "";
+              if (this.toWhich - 1 !== this.currentSteep) {
+                this.currentSteep++;
+                this.currentQuestion = this.question[this.currentSteep];
+                console.log("Xozirgi savol: ", this.currentQuestion);
+              } else {
+                this.testStep = "umumiy";
+                this.currentSteep = 0;
+                this.currentQuestion = "";
+                this.question = [];
+                this.toWhich = 1;
+              }
+            }
+          },
+          randomTests(testgacha, minValue, maxValue) {
+            var A = [];
+            while (maxValue >= minValue) A.push(maxValue--);
+
+            A.sort(function() {
+              return 0.5 - Math.random();
+            });
+
+            return A;
+          },
+          route() {
+            this.testStep = "toWhich";
+            this.ballar = 0;
+            this.answer = "";
           }
         },
         computed: {
