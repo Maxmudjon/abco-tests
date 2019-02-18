@@ -1,0 +1,77 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>ABCO Test</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.6/dist/vue.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+      integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" type="text/css" href="semantic/dist/semantic.min.css" />
+  </head>
+  <body>
+    <div id="life360">
+      <div v-if="logined == 'no'">
+        <div class="card" style="padding: 10px; margin: 10px">
+          <div style="text-align: center;">
+            <h2 style="color: #5748a3">Please login</h2>
+          </div>
+          <div class="input-group">
+            <input type="text" class="form-control" placeholder="+____" v-model="countryCode" />
+            <input type="text" class="form-control" style="width: 75%" v-model="phone" />
+          </div>
+          <div style="padding-top: 10px;">
+            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" v-model="password" />
+          </div>
+          <div style="padding-top: 10px;">
+            <button type="button" class="btn btn-primary btn-lg btn-block" style="background-color: #443880; border: 0;" v-on:click="login">Login</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="ui centered card" v-if="logined == 'yes'">
+        <div class="center aligned author"><img class="ui avatar image" :src="url" /></div>
+
+        <div class="content">
+          <a class="header">Элис</a>
+          <div class="meta">
+            <a>Друзья</a>
+          </div>
+          <div class="description">Matthew is an interior designer living in New York.</div>
+        </div>
+        <div class="extra content">
+          <span class="right floated">Зарегистрирована в 2013 году </span>
+          <span><i class="user icon"></i> 75 Friends </span>
+        </div>
+      </div>
+    </div>
+    <script type="text/javascript">
+      // function onHomeyReady(Homey) {
+      // Homey.ready();
+      new Vue({
+        el: "#life360",
+        data: {
+          user: [],
+          logined: "no",
+          url: "https://www.life360.com/img/user_images/55fb9228-3f3c-4f9e-a922-877d749d7f26/ad423276-3de7-4f55-94c8-1f6ca99a7cf1.jpg?fd=2",
+          countryCode: "",
+          phone: "",
+          password: ""
+        },
+        methods: {
+          login() {
+            console.log(this.countryCode + this.phone + " " + this.password);
+            if (this.countryCode + this.phone == "+998974076411" && this.password == "maxmud42") {
+              this.logined = "yes";
+            }
+          }
+        }
+      });
+      // }
+    </script>
+  </body>
+</html>
