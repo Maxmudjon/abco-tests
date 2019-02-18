@@ -13,37 +13,62 @@
     />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.9/semantic.min.css" />
   </head>
-  <body>
-    <div id="abcoTests" style="margin: 10px;">
-      <div v-if="testStep == 'toWhich'">
+  <body style="background: linear-gradient(45deg, #9d3bf2, #4583d0)">
+    <div id="abcoTests" style="margin: 10px; ">
+      <!-- --------------- -->
+      <!-- Bosh saxifa -->
+      <!-- --------------- -->
+      <div v-if="testStep == 'hello'">
         <div class="card" style="padding: 10px;">
           <div style="text-align: center;">
-            <h2 style="color: #5748a3">Assalomu aleykum, xush kelibsizlar</h2>
-            <h2 style="color: #5748a3">Testdan o'tish saytiga</h2>
+            <h2 style="color: #5748a3">Assalomu aleykum</h2>
+            <h2 style="color: #5748a3">Testdan o'tish saytiga xush kelibsiz</h2>
           </div>
           <div class="ui divider"></div>
           <div style="text-align: center; padding: 20px">
-            <h3>Iltimos qaysi sho'tgacha kelganingizni tanlang</h3>
-            <h3 for="accountNumber" style="color: red">{{ total }}</h3>
-            <h4 for="accountNumber">sho'tigacha</h4>
-            <input type="range" class="custom-range" min="1" max="5" step="1" id="accountNumber" value="1" style="padding-top: 20px;" v-model="toWhich" />
+            <h3>Iltimos ismingizni kiriting</h3>
+            <h3 for="username" style="color: red">{{ username }}</h3>
+            <input type="text" class="form-control" id="shot" v-model="username" placeholder="ismingiz" />
+          </div>
+          <div>
+            <button type="button" class="btn btn-primary btn-lg btn-block" v-on:click="boshladik">Boshladik</button>
+          </div>
+        </div>
+      </div>
+      <!-- --------------- -->
+      <!-- Birinchi saxifa -->
+      <!-- --------------- -->
+      <div v-if="testStep == 'toWhich'">
+        <div class="card" style="padding: 10px;">
+          <div style="text-align: center;">
+            <h2 style="color: #5748a3">Salom {{ username }}!</h2>
+          </div>
+          <div class="ui divider"></div>
+          <div style="text-align: center; padding: 20px">
+            <h3>Iltimos qaysi xisob raqamga kelganingizni tanlang</h3>
+            <h3 for="accountNumber" style="color: red">{{ total }} - {{ this.accounts[toWhich].name }}</h3>
+            <h4 for="accountNumber">xisob raqamigacha</h4>
+            <input type="range" class="custom-range" min="1" max="49" step="1" id="accountNumber" value="1" style="padding-top: 20px;" v-model="toWhich" />
           </div>
           <div>
             <button type="button" class="btn btn-primary btn-lg btn-block" v-on:click="selectedToWhich">Tanladim</button>
           </div>
         </div>
       </div>
+      <!-- ---------------- -->
+      <!-- Teslar saxifasi  -->
+      <!-- ---------------- -->
       <div v-if="testStep == 'testlar'">
         <div class="ui six doubling cards">
-          <div class="card" v-if="lessThanTen == 'xa'" v-on:click="start(toWhich)" style="cursor: pointer;">
+          <div class="card" v-show="lessThanTen" v-on:click="start(toWhich)" style="cursor: pointer;">
             <div class="image">
               <img src="https://raw.githubusercontent.com/Maxmudjon/images/master/10-test-less.jpg" />
             </div>
             <div class="extra content">
-              <div class="center aligned author">10 talik test</div>
+              <div class="center aligned author">10 tadan kam test</div>
             </div>
           </div>
-          <div class="card" v-if="tenTests == 'xa'" v-on:click="start('10')" style="cursor: pointer;">
+          <div class="card" v-show="tenTests" v-on:click="start('10')" style="cursor: pointer;">
             <div class="image">
               <img src="https://raw.githubusercontent.com/Maxmudjon/images/master/10-test.jpg" />
             </div>
@@ -51,26 +76,64 @@
               <div class="center aligned author">10 talik test</div>
             </div>
           </div>
+          <div class="card" v-show="twentyTests" v-on:click="start('20')" style="cursor: pointer;">
+            <div class="image">
+              <img src="https://raw.githubusercontent.com/Maxmudjon/images/master/10-test.jpg" />
+            </div>
+            <div class="extra content">
+              <div class="center aligned author">20 talik test</div>
+            </div>
+          </div>
+          <div class="card" v-show="thirtyTests" v-on:click="start('30')" style="cursor: pointer;">
+            <div class="image">
+              <img src="https://raw.githubusercontent.com/Maxmudjon/images/master/10-test.jpg" />
+            </div>
+            <div class="extra content">
+              <div class="center aligned author">30 talik test</div>
+            </div>
+          </div>
+          <div class="card" v-show="fortyTests" v-on:click="start('40')" style="cursor: pointer;">
+            <div class="image">
+              <img src="https://raw.githubusercontent.com/Maxmudjon/images/master/10-test.jpg" />
+            </div>
+            <div class="extra content">
+              <div class="center aligned author">40 talik test</div>
+            </div>
+          </div>
+          <div class="card" v-show="fiftyTests" v-on:click="start('50')" style="cursor: pointer;">
+            <div class="image">
+              <img src="https://raw.githubusercontent.com/Maxmudjon/images/master/10-test.jpg" />
+            </div>
+            <div class="extra content">
+              <div class="center aligned author">50 talik test</div>
+            </div>
+          </div>
         </div>
       </div>
+      <!-- ----------------- -->
+      <!-- Savollar saxifasi -->
+      <!-- ----------------- -->
       <div v-if="testStep == 'savollar'">
         <div class="card" style="padding: 10px;">
           <div style="text-align: center;">
-            <h2 style="color: #5748a3">{{ currentSteep + 1 }} - savol</h2>
+            <h2 style="color: #5748a3">{{ toWhich }}ta savoldan {{ currentSteep + 1 }} - savol</h2>
+            <!-- <h3 style="color: #5748a3">{{ toWhich }}ta savol</h3> -->
             <h2 style="color: #5748a3">Yeg'ilgan bal: {{ ballar }}</h2>
           </div>
           <div class="ui divider"></div>
           <div style="text-align: center; padding: 20px">
             <h3>Iltimos sho'tning raqami kirgazing</h3>
             <h2 for="accountNumber" style="color: red">{{ accounts[currentQuestion].name }}</h2>
-            <input type="number" class="form-control" id="shot" v-model="answer" />
+            <input type="number" class="form-control" id="shot" v-model="answer" placeholder="xisob raqami" />
           </div>
           <div>
             <button type="button" class="btn btn-primary float-right" v-on:click="next">Keyingi savol</button>
           </div>
         </div>
       </div>
-
+      <!-- ---------------------- -->
+      <!-- Umumiy ballar saxifasi -->
+      <!-- ---------------------- -->
       <div v-if="testStep == 'umumiy'">
         <div class="card" style="padding: 10px;">
           <div style="text-align: center;">
@@ -90,30 +153,118 @@
       new Vue({
         el: "#abcoTests",
         data: {
-          testStep: "toWhich",
+          username: "",
+          testStep: "hello",
           currentSteep: 0,
           currentQuestion: "",
           question: [],
           toWhich: 1,
           ballar: 0,
           answer: "",
-          lessThanTen: "xa",
-          tenTests: "yoq",
-          twentyTests: "yoq",
-          thirtyTests: "yoq",
-          fortyTests: "yoq",
+          lessThanTen: true,
+          tenTests: false,
+          twentyTests: false,
+          thirtyTests: false,
+          fortyTests: false,
+          fiftyTests: false,
           accounts: {
             "1": { name: "Asosiy vositalar", account: "0110" },
             "2": { name: "Asosiy vositalarning eskirishi", account: "0210" },
             "3": { name: "Lizing", account: "0310" },
             "4": { name: "Nomoddiy aktivlar", account: "0410" },
-            "5": { name: "Nomoddiy aktivlarning eskirishi", account: "0510" }
+            "5": { name: "Nomoddiy aktivlarning eskirishi", account: "0510" },
+            "6": { name: "Uzoq muddatli investitsiyalar", account: "0610" },
+            "7": { name: "O'rnatiladigan asbob-uskunalar", account: "0710" },
+            "8": { name: "Tugallanmagan qurilish (Kapital qo'yilmalar)", account: "0810" },
+            "9": { name: "Asosiy vositani xarid qilish (Kapital qo'yilmalar)", account: "0820" },
+            "10": { name: "Nomoddiy aktivlarni xarid qilish (Kapital qo'yilmalar)", account: "0830" },
+            "11": { name: "Uzoq muddatlik debitorlik qarzlar", account: "0910" },
+            "12": { name: "Xom ashyo va materiallar", account: "1010" },
+            "13": { name: "O'stirishdagi va boquvdagi xayvonlar", account: "1110" },
+            "14": { name: "Materiallarni tayyorlash - 'загатовка'", account: "1510" },
+            "15": { name: "Materiallar qiymatidagi farqlar", account: "1610" },
+            "16": { name: "Asosiy ishlab chiqarish", account: "2010" },
+            "17": { name: "O'zida ishlab chiqarilgan yarim tayyor maxsulotlar", account: "2110" },
+            "18": { name: "Yordamchi ishlab chiqarish", account: "2310" },
+            "19": { name: "Umumiy ishlab chiqarish xarajatlari", account: "2510" },
+            "20": { name: "Ishlab chiqarishdagi yaroqsiz maxsulotlar - 'брак'", account: "2610" },
+            "21": { name: "Xizmat ko'rsatuvchi xo'jaliklar", account: "2710" },
+            "22": { name: "Tayyor maxsulotlar - 'ombordagi'", account: "2810" },
+            "23": { name: "Maxsulotlar - 'ombordagi'", account: "2910" },
+            "24": { name: "Kelgusi davr xarajatlari", account: "3110" },
+            "25": { name: "Kechiktirilgan xarajatlar", account: "3210" },
+            "26": { name: "Olinadigan sho'tlar - 'xaridorlarning qarzi'", account: "4010" },
+            "27": { name: "Ajratilingan bo'linmalar, sho'ba va qaram xo'jalik jamiyatlaridan olinadigan sho'tlar - 'Filiallarning bosh ofisga qarzi'", account: "4110" },
+            "28": { name: "Xodimlarga berilgan bo'naklar - 'аванс'", account: "4210" },
+            "29": { name: "Mol yetkazib beruvchilarga va pudratchilarga berilgan bo'naklar - 'аванс'", account: "4310" },
+            "30": { name: "Byudjetga bo'nak to'lovlari - 'аванс' - 'byudjet soliqlariga o'tkazilgan bo'nak'", account: "4410" },
+            "31": { name: "Maqsadli davlat jamg'armalariga va sug'urtalar bo'yicha bo'nak to'lovlar - 'аванс' - 'byudjetdan tashqari soliqlarga o'tkazilgan bo'nak'", account: "4510" },
+            "32": { name: "Ustav kapitaliga ta'sischilarning ulushlari bo'yicha qarzi - 'устав фонд' - 'ta'sischilarning korxona oldidagi qarzi'", account: "4610" },
+            "33": { name: "Xodimlarning boshqa operatsiyalar bo'yicha qarzi - 'ishchilarning korxona oldidagi qarzi'", account: "4710" },
+            "34": { name: "Turli debitorlar qarzlari - 'boshqa debitor qarzlar'", account: "4810" },
+            "35": { name: "Dargumon qarzlar - 'dargumon qarzlar bo'yicha rezerv'", account: "4910" },
+            "36": { name: "Kassadagi pul mablag'lari - 'kassadagi naqt pullar'", account: "5010" },
+            "37": { name: "Xisob-kitob xisob raqami", account: "5110" },
+            "38": { name: "Chet-el valyutasidagi pul mablag'lari - 'valyuta xisob raqami'", account: "5210" },
+            "39": { name: "Bankdagi maxsus xisob raqamlardagi pul mablag'lari - 'boshqa ikkilamchi bankdagi xisob raqamlar'", account: "5510" },
+            "40": { name: "Pul ekvivalentlari - 'конвертация'", account: "5610" },
+            "41": { name: "Yo'ldagi pul mablag' (o'tkazma)lar - 'инкассация'", account: "5710" },
+            "42": { name: "Qisqa muddatli investitsiyalar - 'займ'", account: "5810" },
+            "43": { name: "Kamomadlar va qiymatliklarning buzulishidan yo'qotishlar va boshqa joriy aktivlar - 'недостатька' - 'kamomatlar'", account: "5910" },
+            "44": { name: "Mol yetkazib beruvchilar va pudratchilarga to'lanadigan sho'tlar - 'mol yetkazib beruvchilarga korxonaning qarzi'", account: "6010" },
+            "45": { name: "Ajratilgan bo'linmalar, sho'ba va qaram xo'jalik jamiyatlariga to'lanadigan sho'tlar - 'Korxonaning filiallar oldidagi qarzi'", account: "6110" },
+            "46": {
+              name: "Kechiktirilgan majburiyatlar",
+              account: "6210",
+              sub: { "1": { name: "Soliqlar va boshqa majburiy to'lovlar foyda solog'i - 'imtiyozli kechiktirilgan soliq to'lovlari'", account: "6240" } }
+            },
+            "47": { name: "Olingan bo'naklar - 'аванс' - 'xaridorlarning bo'naklari'", account: "6310" },
+            "48": { name: "Byudjetga to'lovlar bo'yicha qarzni xisobga olish - 'byudjet soliqlari bo'yicha qarzimiz'", account: "6410" },
+            "49": { name: "Sug'urta va maqsadli davlar jamg'armalariga to'lovlar bo'yicha qarzni xisobga olish - 'byudjetdan tashqari soliq qarzlari'", account: "6510" }
           }
         },
         methods: {
+          boshladik() {
+            if (this.username == "") {
+              alert("Iltimos ismingizni kiriting");
+            } else {
+              this.testStep = "toWhich";
+            }
+          },
           selectedToWhich() {
             console.log("Tanlanga sho'tlar uzunligi: ", this.toWhich);
-            this.testStep = "testlar";
+            this.start(this.toWhich);
+            // this.testStep = "testlar";
+            // if (this.toWhich < 10 && this.toWhich > 1) {
+            //   console.log(this.toWhich + " '10' dan katta yoki teng");
+            //   this.lessThanTen = true;
+            // } else if (this.toWhich <= 20 && this.toWhich >= 10) {
+            //   console.log(this.toWhich + " '20' dan kam yoki teng");
+            //   this.tenTests = true;
+            //   this.twentyTests = true;
+            //   this.lessThanTen = false;
+            // } else if (this.toWhich <= 30 && this.toWhich >= 10) {
+            //   console.log(this.toWhich + " '30' dan kam yoki teng");
+            //   this.tenTests = true;
+            //   this.twentyTests = true;
+            //   this.thirtyTests = true;
+            //   this.lessThanTen = false;
+            // } else if (this.toWhich <= 40 && this.toWhich >= 10) {
+            //   console.log(this.toWhich + " '40' dan kam yoki teng");
+            //   this.tenTests = true;
+            //   this.twentyTests = true;
+            //   this.thirtyTests = true;
+            //   this.fortyTests = true;
+            //   this.lessThanTen = false;
+            // } else if (this.toWhich <= 50 && this.toWhich >= 10) {
+            //   console.log(this.toWhich + " '50' dan kam yoki teng");
+            //   this.tenTests = true;
+            //   this.twentyTests = true;
+            //   this.thirtyTests = true;
+            //   this.fortyTests = true;
+            //   this.fiftyTests = true;
+            //   this.lessThanTen = false;
+            // }
           },
           start(count) {
             console.log("Tanlanga testning uzunligi: ", count);
