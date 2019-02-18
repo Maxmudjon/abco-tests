@@ -156,11 +156,11 @@
         <div class="card" style="padding: 10px;">
           <div style="text-align: center;">
             <h1 style="color: #5748a3">Yeg'ilgan ballar: {{ ballar }}</h1>
-            <h2 style="color: #5748a3">{{ toWhich }} ta savoldan {{ ballar }} tasiga to'g'ri javob berdingiz</h2>
+            <h2 style="color: #5748a3">{{ testResaultText1 }}</h2>
           </div>
           <div class="ui divider"></div>
           <div style="text-align: center; padding: 20px">
-            <h3>Testdan o'tdingiz</h3>
+            <h3>{{ testResaultText2 }}</h3>
           </div>
           <div>
             <button type="button" class="btn btn-primary btn-lg btn-block" v-on:click="route">Bosh saxifa</button>
@@ -186,8 +186,12 @@
           currentQuestion: "",
           question: [],
           toWhich: 1,
+          questionLength: 0,
           ballar: 0,
           answer: "",
+          testResaultText1: "Test 1",
+          testResaultText2: "Test 2",
+          testResaultText3: "Test 3",
           lessThanTen: true,
           tenTests: false,
           twentyTests: false,
@@ -302,6 +306,7 @@
             console.log("Xozirgi savol: ", this.currentQuestion);
 
             this.testStep = "savollar";
+            this.questionLength = this.toWhich;
           },
           next() {
             if (this.answer == this.accounts[this.currentQuestion].account) {
@@ -319,6 +324,15 @@
                 this.currentQuestion = "";
                 this.question = [];
                 this.toWhich = 1;
+
+                if (this.ballar == 0) {
+                  this.testResaultText1 = "Berilgan " + this.questionLength + " ta savolning birortasiga to'g'ri javob berolmadingiz";
+                  this.testResaultText2 = "Xisob raqamlarni yodlang!";
+                } else {
+                  let baxoFoizda = Math.floor((this.ballar / this.questionLength) * 100);
+                  this.testResaultText1 = "Berilgan " + this.questionLength + " ta savolning " + this.ballar + " tasiga to'g'ri javob berdingiz";
+                  this.testResaultText2 = "Qoyil, siz testdan o'tdingiz, bergan " + baxoFoizda + " % javobingiz to'g'ri";
+                }
               }
             } else {
               this.answer = "";
@@ -332,6 +346,15 @@
                 this.currentQuestion = "";
                 this.question = [];
                 this.toWhich = 1;
+
+                if (this.ballar == 0) {
+                  this.testResaultText1 = "Berilgan " + this.questionLength + " ta savolning birortasiga to'g'ri javob berolmadingiz";
+                  this.testResaultText2 = "Xisob raqamlarni yodlang!";
+                } else {
+                  let baxoFoizda = Math.floor((this.ballar / this.questionLength) * 100);
+                  this.testResaultText1 = "Berilgan " + this.questionLength + " ta savolning " + this.ballar + " tasiga to'g'ri javob berdingiz";
+                  this.testResaultText2 = "Qoyil, siz testdan o'tdingiz, bergan " + baxoFoizda + " % javobingiz to'g'ri";
+                }
               }
             }
           },
