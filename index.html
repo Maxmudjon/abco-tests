@@ -79,7 +79,7 @@
             <h3>Iltimos qaysi xisob raqamga kelganingizni tanlang</h3>
             <h3 for="accountNumber" style="color: red">{{ total }} - {{ this.accounts[toWhich].name }}</h3>
             <h4 for="accountNumber">xisob raqamigacha</h4>
-            <input type="range" class="custom-range" min="1" max="49" step="1" id="accountNumber" value="1" style="padding-top: 20px;" v-model="toWhich" />
+            <input type="range" class="custom-range" min="1" max="51" step="1" id="accountNumber" value="1" style="padding-top: 20px;" v-model="toWhich" />
           </div>
           <div>
             <button type="button" class="btn btn-primary btn-lg btn-block" v-on:click="selectedToWhich">Tanladim</button>
@@ -264,7 +264,9 @@
             },
             "47": { name: "Olingan bo'naklar - 'аванс' - 'xaridorlarning bo'naklari'", account: "6310" },
             "48": { name: "Byudjetga to'lovlar bo'yicha qarzni xisobga olish - 'byudjet soliqlari bo'yicha qarzimiz'", account: "6410" },
-            "49": { name: "Sug'urta va maqsadli davlar jamg'armalariga to'lovlar bo'yicha qarzni xisobga olish - 'byudjetdan tashqari soliq qarzlari'", account: "6510" }
+            "49": { name: "Sug'urta va maqsadli davlar jamg'armalariga to'lovlar bo'yicha qarzni xisobga olish - 'byudjetdan tashqari soliq qarzlari'", account: "6510" },
+            "50": { name: "Korxonaning ta'sischilarga bo'lgan qarzi - 'dvident tariqasida'", account: "6610" },
+            "51": { name: "Mehnat xaqi bo'yicha xodim bilan xisoblashishlarni xisobga olish - 'oylik ish xaqqi'", account: "6710" }
           }
         },
         methods: {
