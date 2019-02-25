@@ -535,7 +535,7 @@
             this.testStep = "toWhich";
 
             topUsers.child(this.username).on("value", snapshot => {
-              this.userTopScore = snapshot.val();
+              this.userTopScore = snapshot.val().ballar;
             });
           }
 
