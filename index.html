@@ -112,7 +112,7 @@
                   <h3>Iltimos qaysi xisob raqamga kelganingizni tanlang</h3>
                   <h3 for="accountNumber" style="color: red">{{ total }} - {{ this.accounts[toWhich].name }}</h3>
                   <h4 for="accountNumber">xisob raqamigacha</h4>
-                  <input type="range" class="custom-range" min="1" max="51" step="1" id="accountNumber" value="1" style="padding-top: 20px;" v-model="toWhich" />
+                  <input type="range" class="custom-range" min="1" max="60" step="1" id="accountNumber" value="1" style="padding-top: 20px;" v-model="toWhich" />
                 </div>
                 <div>
                   <button type="button" class="btn btn-primary btn-lg col-xs-12 col-sm-9 col-md-6 col-lg-4 col-xl-3" v-on:click="selectedToWhich">Tanladim</button>
@@ -315,7 +315,16 @@
             "48": { name: "Byudjetga to'lovlar bo'yicha qarzni xisobga olish - 'byudjet soliqlari bo'yicha qarzimiz'", account: "6410" },
             "49": { name: "Sug'urta va maqsadli davlar jamg'armalariga to'lovlar bo'yicha qarzni xisobga olish - 'byudjetdan tashqari soliq qarzlari'", account: "6510" },
             "50": { name: "Korxonaning ta'sischilarga bo'lgan qarzi - 'dvident tariqasida'", account: "6610" },
-            "51": { name: "Mehnat xaqi bo'yicha xodim bilan xisoblashishlarni xisobga olish - 'oylik ish xaqqi'", account: "6710" }
+            "51": { name: "Mehnat xaqi bo'yicha xodim bilan xisoblashishlarni xisobga olish - 'oylik ish xaqqi'", account: "6710" },
+            "52": { name: "Qisqa muddatlik kreditlar va qarzlar - 'qisqa muddatli olingan kredit va zaymlar'", account: "6810" },
+            "53": { name: "Turli kreditorlarga bo'lgan qarzlarni xisobga olish - 'boshqa kreditor qarzlar (xizmatlar bo'yicha'", account: "6910" },
+            "54": { name: "Mol yetkazib beruvchilarga va pudratchilarga to'lanadigan uzoq muddatli xisob raqamlar - 'mol yetkazib beruvchilarga uzoq muddatlik qarzimiz'", account: "7010" },
+            "55": { name: "Ajratilgan bo'linmalar, sho'ba va qaram xo'jalik jamiyatlariga bo'lgan uzoq muddatli qarz - 'Korxonaning filiallar oldidagi uzoq muddatlik qarzi'", account: "7110" },
+            "56": { name: "Kechiktirilgan uzoq muddatlik majburiyatlarni xisobga olish - 'kechiktirilgan majburiyatlar'", account: "7210" },
+            "57": { name: "Xaridorlar va buyurtmachilardan olingan uzoq muddatli bo'naklarni xisobga olish - 'uzoq muddatlik avans xisob raqami'", account: "7310" },
+            "58": { name: "Uzoq muddatli kreditlar va qarzlarni xisobga olish - 'uzoq muddatli zaym, kreditlar'", account: "7810" },
+            "59": { name: "Turli kreditorlarga bo'lgan uzoq muddatli qarzlarni xisobga olish - 'uzoq muddatlik boshqa kreditor qarzlar'", account: "7910" },
+            "60": { name: "Ustav kapitalni xisobga olish", account: "8330" }
           }
         },
         methods: {
