@@ -3,16 +3,25 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-
-    <meta property="og:url" content="https://maxmudjon.github.io/abco-tests/"/>
-    <meta property="og:title" content="ABCO Testlari"/>
-    <meta property="og:description"
-          content="O'tilgan xisob raqamlar bo'yicha testdan o'tish."/>
-    <meta property="og:image" content="https://github.com/Maxmudjon/images/blob/master/10-test.jpg"/>
-
+    <meta property="og:url" content="https://maxmudjon.github.io/abco-tests/" />
+    <meta property="og:title" content="ABCO Testlari" />
+    <meta property="og:description" content="O'tilgan xisob raqamlar bo'yicha testdan o'tish." />
+    <meta property="og:image" content="https://github.com/Maxmudjon/images/blob/master/10-test.jpg" />
     <title>ABCO Test</title>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.6/dist/vue.js"></script>
 
+    <script src="https://www.gstatic.com/firebasejs/5.8.4/firebase.js"></script>
+    <script>
+      var config = {
+        apiKey: "AIzaSyDKPIGWRriLIfAIr170t-w-WfK9b3A93dA",
+        authDomain: "abco-tests.firebaseapp.com",
+        databaseURL: "https://abco-tests.firebaseio.com",
+        projectId: "abco-tests",
+        storageBucket: "abco-tests.appspot.com",
+        messagingSenderId: "636499463293"
+      };
+      firebase.initializeApp(config);
+    </script>
     <link
       rel="stylesheet"
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
@@ -26,12 +35,16 @@
         overflow: hidden;
       }
 
+      .abcoTests {
+        margin-top: 15px;
+      }
+
       h1 {
-        color: #5748a3
+        color: #5748a3;
       }
 
       h2 {
-        color: #5748a3
+        color: #5748a3;
       }
 
       .footer {
@@ -44,146 +57,169 @@
         font-size: xx-small;
       }
 
+      .topBallar {
+        margin-top: 10px;
+      }
+
       @media screen and (min-width: 360px) {
         .footer {
-          font-size: small; /* The width is 100%, when the viewport is 800px or smaller */
+          font-size: small;
+        }
+      }
+
+      @media screen and (max-height: 380px) {
+        .footer {
+          display: none;
         }
       }
     </style>
   </head>
-  <body">
-    <div id="abcoTests" style="margin: 10px; ">
-      <!-- --------------- -->
-      <!-- Bosh saxifa -->
-      <!-- --------------- -->
-      <div v-if="testStep == 'hello'">
-        <div class="card" style="padding: 10px;">
-          <div style="text-align: center;">
-            <h2>Assalomu aleykum</h2>
-            <h2>Testdan o'tish saytiga xush kelibsiz</h2>
-          </div>
-          <div class="ui divider"></div>
-          <div style="text-align: center; padding: 20px">
-            <h3>Iltimos ismingizni kiriting</h3>
-            <h3 for="username" style="color: red">{{ username }}</h3>
-            <input type="text" class="form-control" id="shot" v-model="username" placeholder="ismingiz" />
-          </div>
-          <div>
-            <button type="button" class="btn btn-primary btn-lg btn-block" v-on:click="boshladik">Boshladik</button>
-          </div>
-        </div>
-      </div>
-      <!-- --------------- -->
-      <!-- Birinchi saxifa -->
-      <!-- --------------- -->
-      <div v-if="testStep == 'toWhich'">
-        <div class="card" style="padding: 10px;">
-          <div style="text-align: center;">
-            <h2>Salom {{ username }}!</h2>
-          </div>
-          <div class="ui divider"></div>
-          <div style="text-align: center; padding: 20px">
-            <h3>Iltimos qaysi xisob raqamga kelganingizni tanlang</h3>
-            <h3 for="accountNumber" style="color: red">{{ total }} - {{ this.accounts[toWhich].name }}</h3>
-            <h4 for="accountNumber">xisob raqamigacha</h4>
-            <input type="range" class="custom-range" min="1" max="51" step="1" id="accountNumber" value="1" style="padding-top: 20px;" v-model="toWhich" />
-          </div>
-          <div>
-            <button type="button" class="btn btn-primary btn-lg btn-block" v-on:click="selectedToWhich">Tanladim</button>
-          </div>
-        </div>
-      </div>
-      <!-- ---------------- -->
-      <!-- Teslar saxifasi  -->
-      <!-- ---------------- -->
-      <div v-if="testStep == 'testlar'">
-        <div class="ui six doubling cards">
-          <div class="card" v-show="lessThanTen" v-on:click="start(toWhich)" style="cursor: pointer;">
-            <div class="image">
-              <img src="https://raw.githubusercontent.com/Maxmudjon/images/master/10-test-less.jpg" />
+  <body>
+    <div class="abcoTests" id="abcoTests">
+      <div class="container-fluid h-100">
+        <div class="row justify-content-center align-items-center">
+          <div class="col-sm-12 col-md-9 col-lg-7 col-xl-6 text-center">
+            <!-- --------------- -->
+            <!-- Bosh saxifa -->
+            <!-- --------------- -->
+            <div v-if="testStep == 'hello'">
+              <div class="card" style="padding: 10px;">
+                <div style="text-align: center;">
+                  <h2>Assalomu aleykum</h2>
+                  <h2>Testdan o'tish saytiga xush kelibsiz</h2>
+                </div>
+                <div class="ui divider"></div>
+                <div style="text-align: center; padding: 20px">
+                  <h3>Iltimos ismingizni kiriting</h3>
+                  <h3 for="username" style="color: red">{{ username }}</h3>
+                  <input type="text" class="form-control" id="shot" v-model="username" placeholder="ismingiz" />
+                </div>
+                <div>
+                  <button type="button" class="btn btn-primary btn-lg col-xs-12 col-sm-9 col-md-6 col-lg-4 col-xl-3" v-on:click="boshladik">Boshladik</button>
+                </div>
+              </div>
             </div>
-            <div class="extra content">
-              <div class="center aligned author">10 tadan kam test</div>
+            <!-- --------------- -->
+            <!-- Birinchi saxifa -->
+            <!-- --------------- -->
+            <div v-if="testStep == 'toWhich'">
+              <div class="card" style="padding: 10px;">
+                <div style="text-align: center;">
+                  <h2>Salom {{ username }}!</h2>
+                </div>
+                <div class="ui divider"></div>
+                <div style="text-align: center; padding: 20px">
+                  <h3>Iltimos qaysi xisob raqamga kelganingizni tanlang</h3>
+                  <h3 for="accountNumber" style="color: red">{{ total }} - {{ this.accounts[toWhich].name }}</h3>
+                  <h4 for="accountNumber">xisob raqamigacha</h4>
+                  <input type="range" class="custom-range" min="1" max="51" step="1" id="accountNumber" value="1" style="padding-top: 20px;" v-model="toWhich" />
+                </div>
+                <div>
+                  <button type="button" class="btn btn-primary btn-lg col-xs-12 col-sm-9 col-md-6 col-lg-4 col-xl-3" v-on:click="selectedToWhich">Tanladim</button>
+                </div>
+              </div>
+              <div class="topBallar">
+                <ul class="list-group" v-for="(foydalanuvchi, index) in foydalanuvchilar">
+                  <li class="list-group-item d-flex justify-content-between align-items-center">
+                    {{ foydalanuvchi.name }}
+                    <span class="badge badge-primary badge-pill">{{ foydalanuvchi.ballar }}</span>
+                  </li>
+                </ul>
+              </div>
             </div>
-          </div>
-          <div class="card" v-show="tenTests" v-on:click="start('10')" style="cursor: pointer;">
-            <div class="image">
-              <img src="https://raw.githubusercontent.com/Maxmudjon/images/master/10-test.jpg" />
+            <!-- ---------------- -->
+            <!-- Teslar saxifasi  -->
+            <!-- ---------------- -->
+            <div v-if="testStep == 'testlar'">
+              <div class="ui six doubling cards">
+                <div class="card" v-show="lessThanTen" v-on:click="start(toWhich)" style="cursor: pointer;">
+                  <div class="image">
+                    <img src="https://raw.githubusercontent.com/Maxmudjon/images/master/10-test-less.jpg" />
+                  </div>
+                  <div class="extra content">
+                    <div class="center aligned author">10 tadan kam test</div>
+                  </div>
+                </div>
+                <div class="card" v-show="tenTests" v-on:click="start('10')" style="cursor: pointer;">
+                  <div class="image">
+                    <img src="https://raw.githubusercontent.com/Maxmudjon/images/master/10-test.jpg" />
+                  </div>
+                  <div class="extra content">
+                    <div class="center aligned author">10 talik test</div>
+                  </div>
+                </div>
+                <div class="card" v-show="twentyTests" v-on:click="start('20')" style="cursor: pointer;">
+                  <div class="image">
+                    <img src="https://raw.githubusercontent.com/Maxmudjon/images/master/10-test.jpg" />
+                  </div>
+                  <div class="extra content">
+                    <div class="center aligned author">20 talik test</div>
+                  </div>
+                </div>
+                <div class="card" v-show="thirtyTests" v-on:click="start('30')" style="cursor: pointer;">
+                  <div class="image">
+                    <img src="https://raw.githubusercontent.com/Maxmudjon/images/master/10-test.jpg" />
+                  </div>
+                  <div class="extra content">
+                    <div class="center aligned author">30 talik test</div>
+                  </div>
+                </div>
+                <div class="card" v-show="fortyTests" v-on:click="start('40')" style="cursor: pointer;">
+                  <div class="image">
+                    <img src="https://raw.githubusercontent.com/Maxmudjon/images/master/10-test.jpg" />
+                  </div>
+                  <div class="extra content">
+                    <div class="center aligned author">40 talik test</div>
+                  </div>
+                </div>
+                <div class="card" v-show="fiftyTests" v-on:click="start('50')" style="cursor: pointer;">
+                  <div class="image">
+                    <img src="https://raw.githubusercontent.com/Maxmudjon/images/master/10-test.jpg" />
+                  </div>
+                  <div class="extra content">
+                    <div class="center aligned author">50 talik test</div>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div class="extra content">
-              <div class="center aligned author">10 talik test</div>
+            <!-- ----------------- -->
+            <!-- Savollar saxifasi -->
+            <!-- ----------------- -->
+            <div v-if="testStep == 'savollar'">
+              <div class="card" style="padding: 10px;">
+                <div style="text-align: center;">
+                  <h2>{{ toWhich }} ta savoldan {{ currentSteep + 1 }} - savol</h2>
+                  <h2>Yeg'ilgan bal: {{ ballar }}</h2>
+                </div>
+                <div class="ui divider"></div>
+                <div style="text-align: center; padding: 20px">
+                  <h3>Iltimos sho'tning raqami kirgazing</h3>
+                  <h2 for="accountNumber" style="color: red">{{ accounts[currentQuestion].name }}</h2>
+                  <input type="number" class="form-control" id="shot" v-model="answer" placeholder="xisob raqami" />
+                </div>
+                <div>
+                  <button type="button" class="btn btn-primary float-right" v-on:click="next">Keyingi savol</button>
+                </div>
+              </div>
             </div>
-          </div>
-          <div class="card" v-show="twentyTests" v-on:click="start('20')" style="cursor: pointer;">
-            <div class="image">
-              <img src="https://raw.githubusercontent.com/Maxmudjon/images/master/10-test.jpg" />
+            <!-- ---------------------- -->
+            <!-- Umumiy ballar saxifasi -->
+            <!-- ---------------------- -->
+            <div v-if="testStep == 'umumiy'">
+              <div class="card" style="padding: 10px;">
+                <div style="text-align: center;">
+                  <h1>Yeg'ilgan ballar: {{ ballar }}</h1>
+                  <h2>{{ testResaultText1 }}</h2>
+                </div>
+                <div class="ui divider"></div>
+                <div style="text-align: center; padding: 20px">
+                  <h3>{{ testResaultText2 }}</h3>
+                </div>
+                <div>
+                  <button type="button" class="btn btn-primary btn-lg col-xs-12 col-sm-9 col-md-6 col-lg-4 col-xl-3" v-on:click="route">Bosh saxifa</button>
+                </div>
+              </div>
             </div>
-            <div class="extra content">
-              <div class="center aligned author">20 talik test</div>
-            </div>
-          </div>
-          <div class="card" v-show="thirtyTests" v-on:click="start('30')" style="cursor: pointer;">
-            <div class="image">
-              <img src="https://raw.githubusercontent.com/Maxmudjon/images/master/10-test.jpg" />
-            </div>
-            <div class="extra content">
-              <div class="center aligned author">30 talik test</div>
-            </div>
-          </div>
-          <div class="card" v-show="fortyTests" v-on:click="start('40')" style="cursor: pointer;">
-            <div class="image">
-              <img src="https://raw.githubusercontent.com/Maxmudjon/images/master/10-test.jpg" />
-            </div>
-            <div class="extra content">
-              <div class="center aligned author">40 talik test</div>
-            </div>
-          </div>
-          <div class="card" v-show="fiftyTests" v-on:click="start('50')" style="cursor: pointer;">
-            <div class="image">
-              <img src="https://raw.githubusercontent.com/Maxmudjon/images/master/10-test.jpg" />
-            </div>
-            <div class="extra content">
-              <div class="center aligned author">50 talik test</div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- ----------------- -->
-      <!-- Savollar saxifasi -->
-      <!-- ----------------- -->
-      <div v-if="testStep == 'savollar'">
-        <div class="card" style="padding: 10px;">
-          <div style="text-align: center;">
-            <h2>{{ toWhich }} ta savoldan {{ currentSteep + 1 }} - savol</h2>
-            <!-- <h3>{{ toWhich }}ta savol</h3> -->
-            <h2>Yeg'ilgan bal: {{ ballar }}</h2>
-          </div>
-          <div class="ui divider"></div>
-          <div style="text-align: center; padding: 20px">
-            <h3>Iltimos sho'tning raqami kirgazing</h3>
-            <h2 for="accountNumber" style="color: red">{{ accounts[currentQuestion].name }}</h2>
-            <input type="number" class="form-control" id="shot" v-model="answer" placeholder="xisob raqami" />
-          </div>
-          <div>
-            <button type="button" class="btn btn-primary float-right" v-on:click="next">Keyingi savol</button>
-          </div>
-        </div>
-      </div>
-      <!-- ---------------------- -->
-      <!-- Umumiy ballar saxifasi -->
-      <!-- ---------------------- -->
-      <div v-if="testStep == 'umumiy'">
-        <div class="card" style="padding: 10px;">
-          <div style="text-align: center;">
-            <h1>Yeg'ilgan ballar: {{ ballar }}</h1>
-            <h2>{{ testResaultText1 }}</h2>
-          </div>
-          <div class="ui divider"></div>
-          <div style="text-align: center; padding: 20px">
-            <h3>{{ testResaultText2 }}</h3>
-          </div>
-          <div>
-            <button type="button" class="btn btn-primary btn-lg btn-block" v-on:click="route">Bosh saxifa</button>
           </div>
         </div>
       </div>
@@ -197,14 +233,20 @@
     </div>
 
     <script type="text/javascript">
+      var database = firebase.database().ref("ballar");
+      var topUsers = firebase.database().ref("engKopBal");
+
       new Vue({
         el: "#abcoTests",
         data: {
           username: "",
+          foydalanuvchilar: [],
+          userTopScore: 0,
           testStep: "hello",
           currentSteep: 0,
           currentQuestion: "",
           question: [],
+          failAnswers: [],
           toWhich: 1,
           questionLength: 0,
           ballar: 0,
@@ -282,6 +324,7 @@
               alert("Iltimos ismingizni kiriting");
             } else {
               this.testStep = "toWhich";
+              localStorage.foydalanuvchi = this.username;
             }
           },
           selectedToWhich() {
@@ -350,13 +393,53 @@
                 if (this.ballar == 0) {
                   this.testResaultText1 = "Berilgan " + this.questionLength + " ta savolning birortasiga to'g'ri javob berolmadingiz";
                   this.testResaultText2 = "Xisob raqamlarni yodlang!";
+                  database
+                    .child(this.username)
+                    .child(this.getDate())
+                    .child(this.getTime())
+                    .set({
+                      tanlanganXisobRaqamgacha: this.accounts[this.questionLength].account,
+                      savollarSoni: this.questionLength,
+                      yegilganBallar: this.ballar,
+                      togriJavobFoizda: 0,
+                      testdanOtdi: false,
+                      notogriJavoblar: this.failAnswers
+                    });
+
+                  topUsers.child(this.username).set({
+                    name: this.username,
+                    ballar: this.userTopScore + this.ballar
+                  });
                 } else {
                   let baxoFoizda = Math.floor((this.ballar / this.questionLength) * 100);
                   this.testResaultText1 = "Berilgan " + this.questionLength + " ta savolning " + this.ballar + " tasiga to'g'ri javob berdingiz";
                   this.testResaultText2 = "Qoyil, siz testdan o'tdingiz, bergan " + baxoFoizda + " % javobingiz to'g'ri";
+                  database
+                    .child(this.username)
+                    .child(this.getDate())
+                    .child(this.getTime())
+                    .set({
+                      tanlanganXisobRaqamgacha: this.accounts[this.questionLength].account,
+                      savollarSoni: this.questionLength,
+                      yegilganBallar: this.ballar,
+                      togriJavobFoizda: baxoFoizda,
+                      testdanOtdi: true,
+                      notogriJavoblar: this.failAnswers
+                    });
+
+                  topUsers.child(this.username).set({
+                    name: this.username,
+                    ballar: this.userTopScore + this.ballar
+                  });
                 }
               }
             } else {
+              let malumot = {
+                savol: this.accounts[this.currentQuestion].name,
+                javob: this.accounts[this.currentQuestion].account,
+                berilganJavob: this.answer
+              };
+              this.failAnswers.push(malumot);
               this.answer = "";
               if (this.toWhich - 1 !== this.currentSteep) {
                 this.currentSteep++;
@@ -372,10 +455,44 @@
                 if (this.ballar == 0) {
                   this.testResaultText1 = "Berilgan " + this.questionLength + " ta savolning birortasiga to'g'ri javob berolmadingiz";
                   this.testResaultText2 = "Xisob raqamlarni yodlang!";
+                  database
+                    .child(this.username)
+                    .child(this.getDate())
+                    .child(this.getTime())
+                    .set({
+                      tanlanganXisobRaqamgacha: this.accounts[this.questionLength].account,
+                      savollarSoni: this.questionLength,
+                      yegilganBallar: this.ballar,
+                      togriJavobFoizda: 0,
+                      testdanOtdi: false,
+                      notogriJavoblar: this.failAnswers
+                    });
+
+                  topUsers.child(this.username).set({
+                    name: this.username,
+                    ballar: this.userTopScore
+                  });
                 } else {
                   let baxoFoizda = Math.floor((this.ballar / this.questionLength) * 100);
                   this.testResaultText1 = "Berilgan " + this.questionLength + " ta savolning " + this.ballar + " tasiga to'g'ri javob berdingiz";
                   this.testResaultText2 = "Qoyil, siz testdan o'tdingiz, bergan " + baxoFoizda + " % javobingiz to'g'ri";
+                  database
+                    .child(this.username)
+                    .child(this.getDate())
+                    .child(this.getTime())
+                    .set({
+                      tanlanganXisobRaqamgacha: this.accounts[this.questionLength].account,
+                      savollarSoni: this.questionLength,
+                      yegilganBallar: this.ballar,
+                      togriJavobFoizda: baxoFoizda,
+                      testdanOtdi: true,
+                      notogriJavoblar: this.failAnswers
+                    });
+
+                  topUsers.child(this.username).set({
+                    name: this.username,
+                    ballar: this.userTopScore + this.ballar
+                  });
                 }
               }
             }
@@ -394,12 +511,37 @@
             this.testStep = "toWhich";
             this.ballar = 0;
             this.answer = "";
+          },
+          getDate() {
+            let date = new Date();
+            var oylar = ["Yanvar", "Fevral", "Mart", "Aprel", "May", "Iyun", "Iyul", "Avgust", "Sentyabr", "Oktyabr", "Noyabr", "Dekabr"];
+
+            return date.getDate() + "-" + oylar[date.getMonth()] + "-" + date.getFullYear();
+          },
+          getTime() {
+            let date = new Date();
+
+            return date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
           }
         },
         computed: {
           total: function() {
             return this.accounts[this.toWhich].account;
           }
+        },
+        created() {
+          if (localStorage.foydalanuvchi != undefined) {
+            this.username = localStorage.foydalanuvchi;
+            this.testStep = "toWhich";
+
+            topUsers.child(this.username).on("value", snapshot => {
+              this.userTopScore = snapshot.val();
+            });
+          }
+
+          topUsers.on("value", snapshot => {
+            this.foydalanuvchilar = snapshot.val();
+          });
         }
       });
     </script>
