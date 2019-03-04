@@ -32,13 +32,28 @@
     <style>
       html,
       body {
-        height: auto;
+        height: 100%;
       }
-
       body {
-        background: linear-gradient(45deg, #9d3bf2, #4583d0);
-
-        /* overflow: hidden; */
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+        background-color: #4583d0;
+        background-repeat: no-repeat;
+        /* IE10 Consumer Preview */
+        background-image: -ms-linear-gradient(top, #9d3bf2 100%, #4583d0 100%);
+        /* Mozilla Firefox */
+        background-image: -moz-linear-gradient(top, #9d3bf2 100%, #4583d0 100%);
+        /* Opera */
+        background-image: -o-linear-gradient(top, #9d3bf2 100%, #4583d0 100%);
+        /* Webkit (Safari/Chrome 10) */
+        background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #9d3bf2), color-stop(1, #4583d0));
+        /* Webkit (Chrome 11+) */
+        background-image: -webkit-linear-gradient(top, #9d3bf2 100%, #4583d0 100%);
+        /* W3C Markup, IE10 Release Preview */
+        background-image: linear-gradient(to bottom, #9d3bf2 0%, #4583d0 100%);
+        margin: 0px 0px 0px 0px;
       }
 
       .abcoTests {
@@ -81,12 +96,12 @@
         }
 
         /* .xisobKitob {
-          width: 50%;
-        }
+                width: 50%;
+              }
 
-        .minutlik {
-          width: 50%;
-        } */
+              .minutlik {
+                width: 50%;
+              } */
       }
 
       @media screen and (max-height: 380px) {
@@ -258,10 +273,11 @@
         </div>
       </div>
     </div>
+
     <!-- ---------------------- -->
     <!-- Footer -->
     <!-- ---------------------- -->
-    <div class="footer">
+    <div class="footer" id="footer">
       <p>© Developed by Payziyev Maxmudjon - 2019</p>
       <p>ABCO bug'alteriya maktabi</p>
     </div>
@@ -285,7 +301,7 @@
           toWhich: 1,
           questionLength: 0,
           ballar: 0,
-          answer: "",
+          answer: null,
           yordamJavob: "yoq",
           yordamBerilsin: false,
           taymer: false,
@@ -364,7 +380,7 @@
             "57": { name: "Xaridorlar va buyurtmachilardan olingan uzoq muddatli bo'naklarni xisobga olish - 'uzoq muddatlik avans xisob raqami'", account: "7310" },
             "58": { name: "Uzoq muddatli kreditlar va qarzlarni xisobga olish - 'uzoq muddatlik zaym, kreditlar'", account: "7810" },
             "59": { name: "Turli kreditorlarga bo'lgan uzoq muddatli qarzlarni xisobga olish - 'uzoq muddatlik boshqa kreditor qarzlar'", account: "7910" },
-            "60": { name: "Ustav kapitalni xisobga olish", account: "8330" },
+            "60": { name: "Ustav kapitalni xisobga olish", account: "8310" },
             "61": { name: "Qo'shilgan kapital", account: "8410" },
             "62": { name: "Rezerv kapitali", account: "8510" },
             "63": { name: "Sotib olingan xususiy aksiyalarni xisobga olish - 'xususiy aksiyalarni sotib olish xisob raqami'", account: "8610" },
@@ -393,48 +409,11 @@
             }
           },
           selectedToWhich() {
-            console.log("Tanlanga sho'tlar uzunligi: ", this.toWhich);
             this.start(this.toWhich);
-            // this.testStep = "testlar";
-            // if (this.toWhich < 10 && this.toWhich > 1) {
-            //   console.log(this.toWhich + " '10' dan katta yoki teng");
-            //   this.lessThanTen = true;
-            // } else if (this.toWhich <= 20 && this.toWhich >= 10) {
-            //   console.log(this.toWhich + " '20' dan kam yoki teng");
-            //   this.tenTests = true;
-            //   this.twentyTests = true;
-            //   this.lessThanTen = false;
-            // } else if (this.toWhich <= 30 && this.toWhich >= 10) {
-            //   console.log(this.toWhich + " '30' dan kam yoki teng");
-            //   this.tenTests = true;
-            //   this.twentyTests = true;
-            //   this.thirtyTests = true;
-            //   this.lessThanTen = false;
-            // } else if (this.toWhich <= 40 && this.toWhich >= 10) {
-            //   console.log(this.toWhich + " '40' dan kam yoki teng");
-            //   this.tenTests = true;
-            //   this.twentyTests = true;
-            //   this.thirtyTests = true;
-            //   this.fortyTests = true;
-            //   this.lessThanTen = false;
-            // } else if (this.toWhich <= 50 && this.toWhich >= 10) {
-            //   console.log(this.toWhich + " '50' dan kam yoki teng");
-            //   this.tenTests = true;
-            //   this.twentyTests = true;
-            //   this.thirtyTests = true;
-            //   this.fortyTests = true;
-            //   this.fiftyTests = true;
-            //   this.lessThanTen = false;
-            // }
           },
           start(count) {
-            console.log("Tanlanga testning uzunligi: ", count);
             this.question = this.randomTests(count, 1, count);
-            console.log("Savollar xar-xilligi: ", this.question);
-
             this.currentQuestion = this.question[this.currentSteep];
-            console.log("Xozirgi savol: ", this.currentQuestion);
-
             this.testStep = "savollar";
             this.questionLength = this.toWhich;
             this.yordamJavob = "yoq";
@@ -442,7 +421,6 @@
             if (this.taymer) {
               var that = this;
               this.boshlanganVaqt = new Date().getTime();
-              console.log("Boshlangan vaqt: ", this.boshlanganVaqt);
 
               setTimeout(function() {
                 that.testStep = "umumiy";
@@ -451,7 +429,6 @@
                 that.question = [];
                 that.toWhich = 1;
                 let xozirgiVaqt = new Date().getTime();
-                console.log("O'tgan vaqt: ", xozirgiVaqt - that.boshlanganVaqt);
 
                 if (that.ballar == 0) {
                   that.testResaultText1 = "Siz berilgan 5 daqiqa ichida " + that.questionLength + " ta savolning birortasiga to'g'ri javob berolmadingiz";
@@ -493,17 +470,27 @@
             }
           },
           next() {
+            let input = document.getElementById("shot");
+
+            if (!this.answer) {
+              input.style.setProperty("border-color", "ff8080");
+              input.style.setProperty("box-shadow", "0 0 0 0.2rem rgba(255, 0, 0, 0.25)");
+
+              // throw new Error("Javob yozilmadi");
+            }
+
             if (this.answer == this.accounts[this.currentQuestion].account) {
+              input.style.removeProperty("border-color", "ff8080");
+              input.style.removeProperty("box-shadow", "0 0 0 0.2rem rgba(255, 0, 0, 0.25)");
               this.ballar++;
               this.answer = "";
-              console.log("Umumiy savollar uzunligi: " + (this.toWhich - 1) + " xozirgi savol: " + this.currentSteep);
+
               this.yordamJavob = "yoq";
               this.timer();
 
               if (this.toWhich - 1 !== this.currentSteep) {
                 this.currentSteep++;
                 this.currentQuestion = this.question[this.currentSteep];
-                console.log("Xozirgi savol: ", this.currentQuestion);
               } else {
                 this.testStep = "umumiy";
                 this.currentSteep = 0;
@@ -556,15 +543,12 @@
 
                 if (this.taymer) {
                   var that = this;
-                  console.log("Boshlangan vaqt: ", this.boshlanganVaqt);
-
                   that.testStep = "umumiy";
                   that.currentSteep = 0;
                   that.currentQuestion = "";
                   that.question = [];
                   that.toWhich = 1;
                   let xozirgiVaqt = new Date().getTime();
-                  console.log("O'tgan vaqt: ", xozirgiVaqt - that.boshlanganVaqt);
 
                   if (that.ballar == 0) {
                     that.testResaultText1 = "Siz berilgan 5 daqiqa ichida " + that.questionLength + " ta savolning birortasiga to'g'ri javob berolmadingiz";
@@ -605,6 +589,8 @@
                 }
               }
             } else {
+              input.style.removeProperty("border-color", "ff8080");
+              input.style.removeProperty("box-shadow", "0 0 0 0.2rem rgba(255, 0, 0, 0.25)");
               let malumot = {
                 savol: this.accounts[this.currentQuestion].name,
                 javob: this.accounts[this.currentQuestion].account,
@@ -617,7 +603,6 @@
               if (this.toWhich - 1 !== this.currentSteep) {
                 this.currentSteep++;
                 this.currentQuestion = this.question[this.currentSteep];
-                console.log("Xozirgi savol: ", this.currentQuestion);
               } else {
                 this.testStep = "umumiy";
                 this.currentSteep = 0;
@@ -670,7 +655,6 @@
 
                 if (this.taymer) {
                   var that = this;
-                  console.log("Boshlangan vaqt: ", this.boshlanganVaqt);
 
                   that.testStep = "umumiy";
                   that.currentSteep = 0;
@@ -678,7 +662,6 @@
                   that.question = [];
                   that.toWhich = 1;
                   let xozirgiVaqt = new Date().getTime();
-                  console.log("O'tgan vaqt: ", xozirgiVaqt - that.boshlanganVaqt);
 
                   if (that.ballar == 0) {
                     that.testResaultText1 = "Siz berilgan 5 daqiqa ichida " + that.questionLength + " ta savolning birortasiga to'g'ri javob berolmadingiz";
@@ -748,20 +731,17 @@
           },
           timer() {
             if (this.yordamBerilsin == true) {
-              console.log("Timer  funksiyasi");
               var that = this;
               clearTimeout(this.timeOut);
               this.timeOut = setTimeout(function() {
-                console.log("yordam javobni ochamiz");
-                console.log(that.yordamJavob);
-
                 that.yordamJavob = "xa";
-                console.log(that.yordamJavob);
               }, 10000);
             }
           },
           engKopBallar() {
             this.testStep = "ochkolar";
+            let footer = document.getElementById("footer");
+            footer.style.setProperty("display", "none");
           },
           orqaga(step) {
             this.testStep = step;
@@ -770,6 +750,11 @@
             if (step == "5minutlik") {
               this.testStep = "toWhich";
               this.taymer = true;
+            }
+
+            if (step == "testlar") {
+              let footer = document.getElementById("footer");
+              footer.style.removeProperty("display", "none");
             }
           },
           msToTime(duration) {
