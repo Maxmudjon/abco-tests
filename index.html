@@ -30,9 +30,15 @@
     />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.9/semantic.min.css" />
     <style>
+      html,
+      body {
+        height: auto;
+      }
+
       body {
         background: linear-gradient(45deg, #9d3bf2, #4583d0);
-        overflow: hidden;
+
+        /* overflow: hidden; */
       }
 
       .abcoTests {
@@ -48,7 +54,8 @@
       }
 
       .footer {
-        position: fixed;
+        position: relative;
+        margin-top: 10px;
         left: 0;
         bottom: 10px;
         width: 100%;
@@ -75,7 +82,7 @@
     </style>
   </head>
   <body>
-    <div class="abcoTests" id="abcoTests">
+    <div class="abcoTests mb-5" id="abcoTests">
       <div class="container-fluid h-100">
         <div class="row justify-content-center align-items-center">
           <div class="col-sm-12 col-md-9 col-lg-7 col-xl-6 text-center">
@@ -104,21 +111,29 @@
             <!-- --------------- -->
             <div v-if="testStep == 'toWhich'">
               <div class="card" style="padding: 10px;">
-                <div style="text-align: center;">
-                  <h2>Salom {{ username }}!</h2>
-                </div>
-                <div class="ui divider"></div>
                 <div style="text-align: center; padding: 20px">
                   <h3>Iltimos qaysi xisob raqamga kelganingizni tanlang</h3>
                   <h3 for="accountNumber" style="color: red">{{ total }} - {{ this.accounts[toWhich].name }}</h3>
                   <h4 for="accountNumber">xisob raqamigacha</h4>
-                  <input type="range" class="custom-range" min="1" max="60" step="1" id="accountNumber" value="1" style="padding-top: 20px;" v-model="toWhich" />
+                  <input type="range" class="custom-range" min="1" max="76" step="1" id="accountNumber" value="1" style="padding-top: 20px;" v-model="toWhich" />
                 </div>
                 <div>
                   <button type="button" class="btn btn-primary btn-lg col-xs-12 col-sm-9 col-md-6 col-lg-4 col-xl-3" v-on:click="selectedToWhich">Tanladim</button>
                 </div>
               </div>
-              <div class="topBallar">
+              <div class="mt-3">
+                <button type="button" class="btn btn-info btn-lg col-xs-12 col-sm-9 col-md-6 col-lg-4 col-xl-3" v-on:click="engKopBallar">Eng ko'p bal ye'gganlar</button>
+              </div>
+              <div class="mt-3 mb-3">
+                <button type="button" class="btn btn-success btn-lg col-xs-12 col-sm-9 col-md-6 col-lg-4 col-xl-3" v-on:click="orqaga('testlar')">Ortga qatyish</button>
+              </div>
+            </div>
+            <!-- ----------------- -->
+            <!-- Ochkolar saxifasi -->
+            <!-- ----------------- -->
+            <div v-if="testStep == 'ochkolar'">
+              <div class="topBallar p-2">
+                <h3 style="color: white">Eng ko'p bal yeg'gan foydalanuvchilar</h3>
                 <ul class="list-group" v-for="(foydalanuvchi, index) in foydalanuvchilar">
                   <li class="list-group-item d-flex justify-content-between align-items-center">
                     {{ foydalanuvchi.name }}
@@ -126,60 +141,46 @@
                   </li>
                 </ul>
               </div>
+              <div class="mt-3 mb-3">
+                <button type="button" class="btn btn-success btn-lg col-xs-12 col-sm-9 col-md-6 col-lg-4 col-xl-3" v-on:click="orqaga('testlar')">Ortga qatyish</button>
+              </div>
             </div>
             <!-- ---------------- -->
             <!-- Teslar saxifasi  -->
             <!-- ---------------- -->
             <div v-if="testStep == 'testlar'">
+              <div style="text-align: center;">
+                <h2 style="color: white">Salom {{ username }}!</h2>
+              </div>
+              <div class="ui divider"></div>
+              <h3 style="color: white">Test turini tanlang</h3>
+              <div class="m-2">
+                <div class="ui checkbox">
+                  <input type="checkbox" name="yordam" v-model="yordamBerilsin" />
+                  <label style="color: white">Yordam berilsin</label>
+                </div>
+              </div>
+
               <div class="ui six doubling cards">
-                <div class="card" v-show="lessThanTen" v-on:click="start(toWhich)" style="cursor: pointer;">
+                <div class="card" v-on:click="orqaga('toWhich')" style="cursor: pointer;">
                   <div class="image">
-                    <img src="https://raw.githubusercontent.com/Maxmudjon/images/master/10-test-less.jpg" />
+                    <img src="https://raw.githubusercontent.com/Maxmudjon/images/master/xisobRaqamgacha.jpg" />
                   </div>
                   <div class="extra content">
-                    <div class="center aligned author">10 tadan kam test</div>
+                    <div class="center aligned author">Xisob raqamlargacha</div>
                   </div>
                 </div>
-                <div class="card" v-show="tenTests" v-on:click="start('10')" style="cursor: pointer;">
+                <div class="card" v-on:click="orqaga('5minutlik')" style="cursor: pointer;">
                   <div class="image">
-                    <img src="https://raw.githubusercontent.com/Maxmudjon/images/master/10-test.jpg" />
+                    <img src="https://raw.githubusercontent.com/Maxmudjon/images/master/5minutlikTest.jpg" />
                   </div>
                   <div class="extra content">
-                    <div class="center aligned author">10 talik test</div>
+                    <div class="center aligned author">5 minutlik test</div>
                   </div>
                 </div>
-                <div class="card" v-show="twentyTests" v-on:click="start('20')" style="cursor: pointer;">
-                  <div class="image">
-                    <img src="https://raw.githubusercontent.com/Maxmudjon/images/master/10-test.jpg" />
-                  </div>
-                  <div class="extra content">
-                    <div class="center aligned author">20 talik test</div>
-                  </div>
-                </div>
-                <div class="card" v-show="thirtyTests" v-on:click="start('30')" style="cursor: pointer;">
-                  <div class="image">
-                    <img src="https://raw.githubusercontent.com/Maxmudjon/images/master/10-test.jpg" />
-                  </div>
-                  <div class="extra content">
-                    <div class="center aligned author">30 talik test</div>
-                  </div>
-                </div>
-                <div class="card" v-show="fortyTests" v-on:click="start('40')" style="cursor: pointer;">
-                  <div class="image">
-                    <img src="https://raw.githubusercontent.com/Maxmudjon/images/master/10-test.jpg" />
-                  </div>
-                  <div class="extra content">
-                    <div class="center aligned author">40 talik test</div>
-                  </div>
-                </div>
-                <div class="card" v-show="fiftyTests" v-on:click="start('50')" style="cursor: pointer;">
-                  <div class="image">
-                    <img src="https://raw.githubusercontent.com/Maxmudjon/images/master/10-test.jpg" />
-                  </div>
-                  <div class="extra content">
-                    <div class="center aligned author">50 talik test</div>
-                  </div>
-                </div>
+              </div>
+              <div class="mt-3">
+                <button type="button" class="btn btn-success btn-lg col-xs-12 col-sm-9 col-md-6 col-lg-4 col-xl-3" v-on:click="engKopBallar">Eng ko'p bal ye'gganlar</button>
               </div>
             </div>
             <!-- ----------------- -->
@@ -195,6 +196,7 @@
                 <div style="text-align: center; padding: 20px">
                   <h3>Iltimos sho'tning raqami kirgazing</h3>
                   <h2 for="accountNumber" style="color: red">{{ accounts[currentQuestion].name }}</h2>
+                  <h4 v-if="yordamJavob == 'xa'" for="accountNumberAnswer" style="color: red">{{ accounts[currentQuestion].account }}</h4>
                   <input type="number" class="form-control" id="shot" v-model="answer" placeholder="xisob raqami" />
                 </div>
                 <div>
@@ -215,8 +217,14 @@
                 <div style="text-align: center; padding: 20px">
                   <h3>{{ testResaultText2 }}</h3>
                 </div>
+                <div v-if="taymer">
+                  <div class="ui divider"></div>
+                  <div style="text-align: center; padding: 20px">
+                    <h3>{{ testResaultText3 }}</h3>
+                  </div>
+                </div>
                 <div>
-                  <button type="button" class="btn btn-primary btn-lg col-xs-12 col-sm-9 col-md-6 col-lg-4 col-xl-3" v-on:click="route">Bosh saxifa</button>
+                  <button type="button" class="btn btn-primary btn-lg col-xs-12 col-sm-9 col-md-6 col-lg-4 col-xl-3" v-on:click="orqaga('testlar')">Bosh saxifa</button>
                 </div>
               </div>
             </div>
@@ -235,6 +243,7 @@
     <script type="text/javascript">
       var database = firebase.database().ref("ballar");
       var topUsers = firebase.database().ref("engKopBal");
+      var beshMinutlik = firebase.database().ref("5minutlik");
 
       new Vue({
         el: "#abcoTests",
@@ -251,6 +260,9 @@
           questionLength: 0,
           ballar: 0,
           answer: "",
+          yordamJavob: "yoq",
+          yordamBerilsin: false,
+          taymer: false,
           testResaultText1: "Test 1",
           testResaultText2: "Test 2",
           testResaultText3: "Test 3",
@@ -260,6 +272,8 @@
           thirtyTests: false,
           fortyTests: false,
           fiftyTests: false,
+          boshlanganVaqt: 0,
+          otganVaqt: 0,
           accounts: {
             "1": { name: "Asosiy vositalar", account: "0110" },
             "2": { name: "Asosiy vositalarning eskirishi", account: "0210" },
@@ -282,8 +296,8 @@
             "19": { name: "Umumiy ishlab chiqarish xarajatlari", account: "2510" },
             "20": { name: "Ishlab chiqarishdagi yaroqsiz maxsulotlar - 'брак'", account: "2610" },
             "21": { name: "Xizmat ko'rsatuvchi xo'jaliklar", account: "2710" },
-            "22": { name: "Tayyor maxsulotlar - 'ombordagi'", account: "2810" },
-            "23": { name: "Maxsulotlar - 'ombordagi'", account: "2910" },
+            "22": { name: "Tayyor maxsulotlar - 'ombordagi tayyor maxsulotlar'", account: "2810" },
+            "23": { name: "Tovarlar - 'ombordagi tovarlar'", account: "2910" },
             "24": { name: "Kelgusi davr xarajatlari", account: "3110" },
             "25": { name: "Kechiktirilgan xarajatlar", account: "3210" },
             "26": { name: "Olinadigan sho'tlar - 'xaridorlarning qarzi'", account: "4010" },
@@ -320,11 +334,27 @@
             "53": { name: "Turli kreditorlarga bo'lgan qarzlarni xisobga olish - 'boshqa kreditor qarzlar (xizmatlar bo'yicha'", account: "6910" },
             "54": { name: "Mol yetkazib beruvchilarga va pudratchilarga to'lanadigan uzoq muddatli xisob raqamlar - 'mol yetkazib beruvchilarga uzoq muddatlik qarzimiz'", account: "7010" },
             "55": { name: "Ajratilgan bo'linmalar, sho'ba va qaram xo'jalik jamiyatlariga bo'lgan uzoq muddatli qarz - 'Korxonaning filiallar oldidagi uzoq muddatlik qarzi'", account: "7110" },
-            "56": { name: "Kechiktirilgan uzoq muddatlik majburiyatlarni xisobga olish - 'kechiktirilgan majburiyatlar'", account: "7210" },
+            "56": { name: "Kechiktirilgan uzoq muddatlik majburiyatlarni xisobga olish - 'uzoq muddatlik kechiktirilgan majburiyatlar'", account: "7210" },
             "57": { name: "Xaridorlar va buyurtmachilardan olingan uzoq muddatli bo'naklarni xisobga olish - 'uzoq muddatlik avans xisob raqami'", account: "7310" },
-            "58": { name: "Uzoq muddatli kreditlar va qarzlarni xisobga olish - 'uzoq muddatli zaym, kreditlar'", account: "7810" },
+            "58": { name: "Uzoq muddatli kreditlar va qarzlarni xisobga olish - 'uzoq muddatlik zaym, kreditlar'", account: "7810" },
             "59": { name: "Turli kreditorlarga bo'lgan uzoq muddatli qarzlarni xisobga olish - 'uzoq muddatlik boshqa kreditor qarzlar'", account: "7910" },
-            "60": { name: "Ustav kapitalni xisobga olish", account: "8330" }
+            "60": { name: "Ustav kapitalni xisobga olish", account: "8330" },
+            "61": { name: "Qo'shilgan kapital", account: "8410" },
+            "62": { name: "Rezerv kapitali", account: "8510" },
+            "63": { name: "Sotib olingan xususiy aksiyalarni xisobga olish - 'xususiy aksiyalarni sotib olish xisob raqami'", account: "8610" },
+            "64": { name: "Taqsimlanmagan foyda (qoplanmagan zarar)", account: "8710" },
+            "65": { name: "Maqsadlik tushumlar", account: "8810" },
+            "66": { name: "Kelgusi xarajatlar va to'lovlarni rezervlarini xisobga olish", account: "8910" },
+            "67": { name: "Asosiy (operatsion) faoliyatning daromadlarini xisob olish - 'asosiy faoliyat bo'yicha daromadlar'", account: "9010" },
+            "68": { name: "Sotilgan maxsulot (tovar, ish, xizmat)larning  tannarxini xisobga olish - 'maxsulot yoki tovarning tannarxi'", account: "9110" },
+            "69": { name: "Asosiy vositalar va boshqa aktivlarning hciqib ketishini xisobga olish - 'asosiy vositaning chiqib ketishi'", account: "9210" },
+            "70": { name: "Asosiy faoliyatning boshqa daromadlarini xisobga olish - 'boshqa daromadlar'", account: "9310" },
+            "71": { name: "Davr xarajatlarini xisobga olish", account: "9410" },
+            "72": { name: "Moliyaviy faoliyat daromadlarini xisobga olish - 'valyuta farqlari bo'yicha daromad'", account: "9510" },
+            "73": { name: "Moliyaviy faoliyat xarajatlarni xisobga olish - 'valyuta farqlari bo'yicha zarar'", account: "9610" },
+            "74": { name: "Favqulotda foyda yoki zarar", account: "9710" },
+            "75": { name: "Soliqlar va boshqa majburiy to'lovlarni to'lash uchun foydaning ishlatilishini xisobga olish - 'tranzit soliq schyoti'", account: "9810" },
+            "76": { name: "Yakuniy moliyaviy natijani xisobga olish - 'oxirgi moliyaviy natija'", account: "9910" }
           }
         },
         methods: {
@@ -332,7 +362,7 @@
             if (this.username == "") {
               alert("Iltimos ismingizni kiriting");
             } else {
-              this.testStep = "toWhich";
+              this.testStep = "testlar";
               localStorage.foydalanuvchi = this.username;
             }
           },
@@ -381,12 +411,68 @@
 
             this.testStep = "savollar";
             this.questionLength = this.toWhich;
+            this.yordamJavob = "yoq";
+            this.timer();
+            if (this.taymer) {
+              var that = this;
+              this.boshlanganVaqt = new Date().getTime();
+              console.log("Boshlangan vaqt: ", this.boshlanganVaqt);
+
+              setTimeout(function() {
+                that.testStep = "umumiy";
+                that.currentSteep = 0;
+                that.currentQuestion = "";
+                that.question = [];
+                that.toWhich = 1;
+                let xozirgiVaqt = new Date().getTime();
+                console.log("O'tgan vaqt: ", xozirgiVaqt - that.boshlanganVaqt);
+
+                if (that.ballar == 0) {
+                  that.testResaultText1 = "Siz berilgan 5 daqiqa ichida " + that.questionLength + " ta savolning birortasiga to'g'ri javob berolmadingiz";
+                  that.testResaultText2 = "Xisob raqamlarni yodlang!";
+                  that.testResaultText3 = "Ketgazgan vaqtingiz: " + that.msToTime(xozirgiVaqt - that.boshlanganVaqt);
+                  beshMinutlik
+                    .child(that.username)
+                    .child(that.getDate())
+                    .child(that.getTime())
+                    .set({
+                      tanlanganXisobRaqamgacha: that.accounts[that.questionLength].account,
+                      savollarSoni: that.questionLength,
+                      yegilganBallar: that.ballar,
+                      togriJavobFoizda: 0,
+                      testdanOtdi: false,
+                      notogriJavoblar: that.failAnswers,
+                      ketgazganVaqti: that.msToTime(xozirgiVaqt - that.boshlanganVaqt)
+                    });
+                } else {
+                  let baxoFoizda = Math.floor((that.ballar / that.questionLength) * 100);
+                  that.testResaultText1 = "Siz berilgan 5 daqida ichida " + that.questionLength + " ta savolning " + that.ballar + " tasiga to'g'ri javob berdingiz";
+                  that.testResaultText2 = "Qoyil, siz testdan o'tdingiz, bergan " + baxoFoizda + " % javobingiz to'g'ri";
+                  that.testResaultText3 = "Ketgazgan vaqtingiz: " + that.msToTime(xozirgiVaqt - that.boshlanganVaqt);
+                  beshMinutlik
+                    .child(that.username)
+                    .child(that.getDate())
+                    .child(that.getTime())
+                    .set({
+                      tanlanganXisobRaqamgacha: that.accounts[that.questionLength].account,
+                      savollarSoni: that.questionLength,
+                      yegilganBallar: that.ballar,
+                      togriJavobFoizda: baxoFoizda,
+                      testdanOtdi: true,
+                      notogriJavoblar: that.failAnswers,
+                      ketgazganVaqti: that.msToTime(xozirgiVaqt - that.boshlanganVaqt)
+                    });
+                }
+              }, 300000);
+            }
           },
           next() {
             if (this.answer == this.accounts[this.currentQuestion].account) {
               this.ballar++;
               this.answer = "";
               console.log("Umumiy savollar uzunligi: " + (this.toWhich - 1) + " xozirgi savol: " + this.currentSteep);
+              this.yordamJavob = "yoq";
+              this.timer();
 
               if (this.toWhich - 1 !== this.currentSteep) {
                 this.currentSteep++;
@@ -441,6 +527,56 @@
                     ballar: this.userTopScore + this.ballar
                   });
                 }
+
+                if (this.taymer) {
+                  var that = this;
+                  console.log("Boshlangan vaqt: ", this.boshlanganVaqt);
+
+                  that.testStep = "umumiy";
+                  that.currentSteep = 0;
+                  that.currentQuestion = "";
+                  that.question = [];
+                  that.toWhich = 1;
+                  let xozirgiVaqt = new Date().getTime();
+                  console.log("O'tgan vaqt: ", xozirgiVaqt - that.boshlanganVaqt);
+
+                  if (that.ballar == 0) {
+                    that.testResaultText1 = "Siz berilgan 5 daqiqa ichida " + that.questionLength + " ta savolning birortasiga to'g'ri javob berolmadingiz";
+                    that.testResaultText2 = "Xisob raqamlarni yodlang!";
+                    that.testResaultText3 = "Ketgazgan vaqtingiz: " + that.msToTime(xozirgiVaqt - that.boshlanganVaqt);
+                    beshMinutlik
+                      .child(that.username)
+                      .child(that.getDate())
+                      .child(that.getTime())
+                      .set({
+                        tanlanganXisobRaqamgacha: that.accounts[that.questionLength].account,
+                        savollarSoni: that.questionLength,
+                        yegilganBallar: that.ballar,
+                        togriJavobFoizda: 0,
+                        testdanOtdi: false,
+                        notogriJavoblar: that.failAnswers,
+                        ketgazganVaqti: that.msToTime(xozirgiVaqt - that.boshlanganVaqt)
+                      });
+                  } else {
+                    let baxoFoizda = Math.floor((that.ballar / that.questionLength) * 100);
+                    that.testResaultText1 = "Siz berilgan 5 daqida ichida " + that.questionLength + " ta savolning " + that.ballar + " tasiga to'g'ri javob berdingiz";
+                    that.testResaultText2 = "Qoyil, siz testdan o'tdingiz, bergan " + baxoFoizda + " % javobingiz to'g'ri";
+                    that.testResaultText3 = "Ketgazgan vaqtingiz: " + that.msToTime(xozirgiVaqt - that.boshlanganVaqt);
+                    beshMinutlik
+                      .child(that.username)
+                      .child(that.getDate())
+                      .child(that.getTime())
+                      .set({
+                        tanlanganXisobRaqamgacha: that.accounts[that.questionLength].account,
+                        savollarSoni: that.questionLength,
+                        yegilganBallar: that.ballar,
+                        togriJavobFoizda: baxoFoizda,
+                        testdanOtdi: true,
+                        notogriJavoblar: that.failAnswers,
+                        ketgazganVaqti: that.msToTime(xozirgiVaqt - that.boshlanganVaqt)
+                      });
+                  }
+                }
               }
             } else {
               let malumot = {
@@ -450,6 +586,8 @@
               };
               this.failAnswers.push(malumot);
               this.answer = "";
+              this.yordamJavob = "yoq";
+              this.timer();
               if (this.toWhich - 1 !== this.currentSteep) {
                 this.currentSteep++;
                 this.currentQuestion = this.question[this.currentSteep];
@@ -504,6 +642,56 @@
                   });
                 }
               }
+
+              if (this.taymer) {
+                var that = this;
+                console.log("Boshlangan vaqt: ", this.boshlanganVaqt);
+
+                that.testStep = "umumiy";
+                that.currentSteep = 0;
+                that.currentQuestion = "";
+                that.question = [];
+                that.toWhich = 1;
+                let xozirgiVaqt = new Date().getTime();
+                console.log("O'tgan vaqt: ", xozirgiVaqt - that.boshlanganVaqt);
+
+                if (that.ballar == 0) {
+                  that.testResaultText1 = "Siz berilgan 5 daqiqa ichida " + that.questionLength + " ta savolning birortasiga to'g'ri javob berolmadingiz";
+                  that.testResaultText2 = "Xisob raqamlarni yodlang!";
+                  that.testResaultText3 = "Ketgazgan vaqtingiz: " + that.msToTime(xozirgiVaqt - that.boshlanganVaqt);
+                  beshMinutlik
+                    .child(that.username)
+                    .child(that.getDate())
+                    .child(that.getTime())
+                    .set({
+                      tanlanganXisobRaqamgacha: that.accounts[that.questionLength].account,
+                      savollarSoni: that.questionLength,
+                      yegilganBallar: that.ballar,
+                      togriJavobFoizda: 0,
+                      testdanOtdi: false,
+                      notogriJavoblar: that.failAnswers,
+                      ketgazganVaqti: that.msToTime(xozirgiVaqt - that.boshlanganVaqt)
+                    });
+                } else {
+                  let baxoFoizda = Math.floor((that.ballar / that.questionLength) * 100);
+                  that.testResaultText1 = "Siz berilgan 5 daqida ichida " + that.questionLength + " ta savolning " + that.ballar + " tasiga to'g'ri javob berdingiz";
+                  that.testResaultText2 = "Qoyil, siz testdan o'tdingiz, bergan " + baxoFoizda + " % javobingiz to'g'ri";
+                  that.testResaultText3 = "Ketgazgan vaqtingiz: " + that.msToTime(xozirgiVaqt - that.boshlanganVaqt);
+                  beshMinutlik
+                    .child(that.username)
+                    .child(that.getDate())
+                    .child(that.getTime())
+                    .set({
+                      tanlanganXisobRaqamgacha: that.accounts[that.questionLength].account,
+                      savollarSoni: that.questionLength,
+                      yegilganBallar: that.ballar,
+                      togriJavobFoizda: baxoFoizda,
+                      testdanOtdi: true,
+                      notogriJavoblar: that.failAnswers,
+                      ketgazganVaqti: that.msToTime(xozirgiVaqt - that.boshlanganVaqt)
+                    });
+                }
+              }
             }
           },
           randomTests(testgacha, minValue, maxValue) {
@@ -531,6 +719,44 @@
             let date = new Date();
 
             return date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+          },
+          timer() {
+            if (this.yordamBerilsin == true) {
+              console.log("Timer  funksiyasi");
+              var that = this;
+              clearTimeout(this.timeOut);
+              this.timeOut = setTimeout(function() {
+                console.log("yordam javobni ochamiz");
+                console.log(that.yordamJavob);
+
+                that.yordamJavob = "xa";
+                console.log(that.yordamJavob);
+              }, 10000);
+            }
+          },
+          engKopBallar() {
+            this.testStep = "ochkolar";
+          },
+          orqaga(step) {
+            this.testStep = step;
+            this.ballar = 0;
+            this.answer = "";
+            if (step == "5minutlik") {
+              this.testStep = "toWhich";
+              this.taymer = true;
+            }
+          },
+          msToTime(duration) {
+            var milliseconds = parseInt((duration % 1000) / 100),
+              seconds = parseInt((duration / 1000) % 60),
+              minutes = parseInt((duration / (1000 * 60)) % 60),
+              hours = parseInt((duration / (1000 * 60 * 60)) % 24);
+
+            hours = hours < 10 ? "0" + hours : hours;
+            minutes = minutes < 10 ? "0" + minutes : minutes;
+            seconds = seconds < 10 ? "0" + seconds : seconds;
+
+            return minutes + ":" + seconds;
           }
         },
         computed: {
@@ -541,7 +767,7 @@
         created() {
           if (localStorage.foydalanuvchi != undefined) {
             this.username = localStorage.foydalanuvchi;
-            this.testStep = "toWhich";
+            this.testStep = "testlar";
 
             topUsers.child(this.username).on("value", snapshot => {
               this.userTopScore = snapshot.val().ballar;
