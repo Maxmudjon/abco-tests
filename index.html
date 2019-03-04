@@ -641,55 +641,55 @@
                     ballar: this.userTopScore + this.ballar
                   });
                 }
-              }
 
-              if (this.taymer) {
-                var that = this;
-                console.log("Boshlangan vaqt: ", this.boshlanganVaqt);
+                if (this.taymer) {
+                  var that = this;
+                  console.log("Boshlangan vaqt: ", this.boshlanganVaqt);
 
-                that.testStep = "umumiy";
-                that.currentSteep = 0;
-                that.currentQuestion = "";
-                that.question = [];
-                that.toWhich = 1;
-                let xozirgiVaqt = new Date().getTime();
-                console.log("O'tgan vaqt: ", xozirgiVaqt - that.boshlanganVaqt);
+                  that.testStep = "umumiy";
+                  that.currentSteep = 0;
+                  that.currentQuestion = "";
+                  that.question = [];
+                  that.toWhich = 1;
+                  let xozirgiVaqt = new Date().getTime();
+                  console.log("O'tgan vaqt: ", xozirgiVaqt - that.boshlanganVaqt);
 
-                if (that.ballar == 0) {
-                  that.testResaultText1 = "Siz berilgan 5 daqiqa ichida " + that.questionLength + " ta savolning birortasiga to'g'ri javob berolmadingiz";
-                  that.testResaultText2 = "Xisob raqamlarni yodlang!";
-                  that.testResaultText3 = "Ketgazgan vaqtingiz: " + that.msToTime(xozirgiVaqt - that.boshlanganVaqt);
-                  beshMinutlik
-                    .child(that.username)
-                    .child(that.getDate())
-                    .child(that.getTime())
-                    .set({
-                      tanlanganXisobRaqamgacha: that.accounts[that.questionLength].account,
-                      savollarSoni: that.questionLength,
-                      yegilganBallar: that.ballar,
-                      togriJavobFoizda: 0,
-                      testdanOtdi: false,
-                      notogriJavoblar: that.failAnswers,
-                      ketgazganVaqti: that.msToTime(xozirgiVaqt - that.boshlanganVaqt)
-                    });
-                } else {
-                  let baxoFoizda = Math.floor((that.ballar / that.questionLength) * 100);
-                  that.testResaultText1 = "Siz berilgan 5 daqida ichida " + that.questionLength + " ta savolning " + that.ballar + " tasiga to'g'ri javob berdingiz";
-                  that.testResaultText2 = "Qoyil, siz testdan o'tdingiz, bergan " + baxoFoizda + " % javobingiz to'g'ri";
-                  that.testResaultText3 = "Ketgazgan vaqtingiz: " + that.msToTime(xozirgiVaqt - that.boshlanganVaqt);
-                  beshMinutlik
-                    .child(that.username)
-                    .child(that.getDate())
-                    .child(that.getTime())
-                    .set({
-                      tanlanganXisobRaqamgacha: that.accounts[that.questionLength].account,
-                      savollarSoni: that.questionLength,
-                      yegilganBallar: that.ballar,
-                      togriJavobFoizda: baxoFoizda,
-                      testdanOtdi: true,
-                      notogriJavoblar: that.failAnswers,
-                      ketgazganVaqti: that.msToTime(xozirgiVaqt - that.boshlanganVaqt)
-                    });
+                  if (that.ballar == 0) {
+                    that.testResaultText1 = "Siz berilgan 5 daqiqa ichida " + that.questionLength + " ta savolning birortasiga to'g'ri javob berolmadingiz";
+                    that.testResaultText2 = "Xisob raqamlarni yodlang!";
+                    that.testResaultText3 = "Ketgazgan vaqtingiz: " + that.msToTime(xozirgiVaqt - that.boshlanganVaqt);
+                    beshMinutlik
+                      .child(that.username)
+                      .child(that.getDate())
+                      .child(that.getTime())
+                      .set({
+                        tanlanganXisobRaqamgacha: that.accounts[that.questionLength].account,
+                        savollarSoni: that.questionLength,
+                        yegilganBallar: that.ballar,
+                        togriJavobFoizda: 0,
+                        testdanOtdi: false,
+                        notogriJavoblar: that.failAnswers,
+                        ketgazganVaqti: that.msToTime(xozirgiVaqt - that.boshlanganVaqt)
+                      });
+                  } else {
+                    let baxoFoizda = Math.floor((that.ballar / that.questionLength) * 100);
+                    that.testResaultText1 = "Siz berilgan 5 daqida ichida " + that.questionLength + " ta savolning " + that.ballar + " tasiga to'g'ri javob berdingiz";
+                    that.testResaultText2 = "Qoyil, siz testdan o'tdingiz, bergan " + baxoFoizda + " % javobingiz to'g'ri";
+                    that.testResaultText3 = "Ketgazgan vaqtingiz: " + that.msToTime(xozirgiVaqt - that.boshlanganVaqt);
+                    beshMinutlik
+                      .child(that.username)
+                      .child(that.getDate())
+                      .child(that.getTime())
+                      .set({
+                        tanlanganXisobRaqamgacha: that.accounts[that.questionLength].account,
+                        savollarSoni: that.questionLength,
+                        yegilganBallar: that.ballar,
+                        togriJavobFoizda: baxoFoizda,
+                        testdanOtdi: true,
+                        notogriJavoblar: that.failAnswers,
+                        ketgazganVaqti: that.msToTime(xozirgiVaqt - that.boshlanganVaqt)
+                      });
+                  }
                 }
               }
             }
