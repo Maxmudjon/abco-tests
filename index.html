@@ -223,7 +223,7 @@
                   <h5>Iltimos xisob raqamini kiriting</h5>
                   <h5 class="m-4" for="accountNumber" style="color: red">{{ accounts[currentQuestion].name }}</h5>
                   <h6 v-if="yordamJavob == 'xa'" for="accountNumberAnswer" style="color: red">{{ accounts[currentQuestion].account }}</h6>
-                  <input type="number" class="form-control" id="shot" v-model="answer" placeholder="xisob raqami" />
+                  <input type="number" class="form-control" id="shot" v-model="answer" v-on:keyup.enter="next" placeholder="xisob raqami" />
                 </div>
                 <div>
                   <button type="button" class="btn btn-primary float-right" v-on:click="next">Keyingi savol</button>
